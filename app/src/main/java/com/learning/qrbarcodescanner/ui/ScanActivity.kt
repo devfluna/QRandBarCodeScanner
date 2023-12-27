@@ -1,26 +1,21 @@
-package com.learning.qrbarcodescanner
+package com.learning.qrbarcodescanner.ui
 
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.zxing.Result
-import com.learning.qrbarcodescanner.MainActivity.Companion.RESULT_KEY
-import com.learning.qrbarcodescanner.databinding.ActivityScanBinding
+import com.learning.qrbarcodescanner.ui.MainActivity.Companion.RESULT_KEY
+import com.learning.qrbarcodescanner.ui.MainActivity
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
 class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
-    var scannerView: ZXingScannerView? = null
+    private var scannerView: ZXingScannerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
