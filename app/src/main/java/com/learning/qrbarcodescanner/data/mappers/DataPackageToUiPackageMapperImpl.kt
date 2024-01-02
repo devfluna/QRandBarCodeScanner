@@ -6,6 +6,10 @@ import com.learning.qrbarcodescanner.ui.model.DeliveryStatus
 import com.learning.qrbarcodescanner.ui.model.PackageDelivery
 import com.learning.qrbarcodescanner.utils.Mapper
 
+/**
+ * Interface defining the contract for a mapper responsible for transforming a data-layer
+ * [PackageDeliveryEntity] into a UI-layer [PackageDelivery].
+ */
 interface DataPackageToUiPackageMapper
     : Mapper<PackageDeliveryEntity, PackageDelivery>
 
