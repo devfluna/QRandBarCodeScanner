@@ -1,7 +1,7 @@
 package com.learning.qrbarcodescanner.data.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DeliveryDao {
@@ -12,7 +12,10 @@ interface DeliveryDao {
     @Delete
     suspend fun delete(delivery: PackageDeliveryEntity)
 
+    @Update
+    suspend fun update(delivery: PackageDeliveryEntity)
+
     @Query("SELECT * from package_entity ORDER BY status ASC")
-    fun getAllPackages(): LiveData<List<PackageDeliveryEntity>>
+    fun getAllPackages(): Flow<List<PackageDeliveryEntity>>
 }
 

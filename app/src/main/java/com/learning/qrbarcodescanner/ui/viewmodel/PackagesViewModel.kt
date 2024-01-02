@@ -1,16 +1,51 @@
 package com.learning.qrbarcodescanner.ui.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.learning.qrbarcodescanner.data.database.DataDeliveryStatus
 import com.learning.qrbarcodescanner.data.database.PackageDeliveryEntity
 import com.learning.qrbarcodescanner.data.repository.DeliveryRepository
+import com.learning.qrbarcodescanner.ui.model.DeliveryStatus
+import com.learning.qrbarcodescanner.ui.model.PackageDelivery
+import com.learning.qrbarcodescanner.ui.usecases.GetAllPackagesUseCase
+import com.learning.qrbarcodescanner.ui.usecases.InsertPackageUseCase
+import com.learning.qrbarcodescanner.ui.usecases.UpdatePackageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class PackagesViewModel @Inject constructor(
-    private val deliveryRepository: DeliveryRepository
-    ) : ViewModel() {
+    private val getAllPackagesUseCase: GetAllPackagesUseCase,
+    private val insertPackageUseCase: InsertPackageUseCase,
+    private val updatePackageUseCase: UpdatePackageUseCase
+) : ViewModel() {
 
-    val allPackagesList: LiveData<List<PackageDeliveryEntity>> = deliveryRepository.getAllPackages()
+    init {
+        insertDummyData()
+    }
+
+    val allPackagesList: Flow<List<PackageDelivery>> = getAllPackagesUseCase()
+
+    private fun insertDummyData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            insertPackageUseCase.insert(
+                PackageDelivery(
+                    id = Random.nextInt(),
+                    itemName =Random.nextInt().toString(),
+                    trackingNumber = Random.nextInt().toString(),
+                    status = DeliveryStatus.Shipped()
+                )
+            )
+        }
+    }
+
+    fun update(delivery: PackageDelivery){
+        viewModelScope.launch(Dispatchers.IO){
+            updatePackageUseCase.update(delivery)
+        }
+    }
 }

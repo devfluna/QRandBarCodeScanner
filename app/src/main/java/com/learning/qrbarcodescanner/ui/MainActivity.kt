@@ -6,9 +6,15 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import com.learning.qrbarcodescanner.databinding.ActivityMainBinding
 import com.learning.qrbarcodescanner.ui.screen.PackagesScreen
 import com.learning.qrbarcodescanner.ui.theme.QRBarCodeScannerTheme
@@ -23,14 +29,18 @@ class MainActivity : AppCompatActivity() {
         const val RESULT_KEY = "RESULT"
     }
 
-    private lateinit var binding: ActivityMainBinding
     private val viewModel: PackagesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             QRBarCodeScannerTheme {
-                PackagesScreen(packageList = FakePackageList, onStatusChanged = {})
+                val list by viewModel.allPackagesList.collectAsState(initial = emptyList())
+                PackagesScreen(
+                    packageList = list,
+                    modifier = Modifier.fillMaxSize(),
+                    onStatusChanged = { viewModel.update(it) }
+                )
             }
         }
     }
