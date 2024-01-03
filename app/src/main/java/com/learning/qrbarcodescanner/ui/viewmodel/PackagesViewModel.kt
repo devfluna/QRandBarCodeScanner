@@ -2,9 +2,6 @@ package com.learning.qrbarcodescanner.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.learning.qrbarcodescanner.data.database.DataDeliveryStatus
-import com.learning.qrbarcodescanner.data.database.PackageDeliveryEntity
-import com.learning.qrbarcodescanner.data.repository.DeliveryRepository
 import com.learning.qrbarcodescanner.ui.model.DeliveryStatus
 import com.learning.qrbarcodescanner.ui.model.PackageDelivery
 import com.learning.qrbarcodescanner.ui.usecases.GetAllPackagesUseCase
@@ -25,26 +22,25 @@ class PackagesViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        insertDummyData()
+//        insertDummyData()
     }
 
     val allPackagesList: Flow<List<PackageDelivery>> = getAllPackagesUseCase()
 
     private fun insertDummyData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            insertPackageUseCase.insert(
-                PackageDelivery(
-                    id = Random.nextInt(),
-                    itemName =Random.nextInt().toString(),
-                    trackingNumber = Random.nextInt().toString(),
-                    status = DeliveryStatus.Shipped()
-                )
+        viewModelScope.launch {
+            val dummy = PackageDelivery(
+                id = Random.nextInt(),
+                itemName = Random.nextInt().toString(),
+                trackingNumber = Random.nextInt().toString(),
+                status = DeliveryStatus.Shipped()
             )
+            insertPackageUseCase.insert(dummy)
         }
     }
 
-    fun update(delivery: PackageDelivery){
-        viewModelScope.launch(Dispatchers.IO){
+    fun update(delivery: PackageDelivery) {
+        viewModelScope.launch(Dispatchers.IO) {
             updatePackageUseCase.update(delivery)
         }
     }

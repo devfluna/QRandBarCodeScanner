@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.learning.qrbarcodescanner.utils.FakePackageList
 import com.learning.qrbarcodescanner.ui.model.PackageDelivery
+import com.learning.qrbarcodescanner.ui.screen.components.PackageCard
 
 @Composable
 fun PackagesScreen(
