@@ -18,4 +18,8 @@ class DeliveryRepositoryImpl @Inject constructor(private val deliveryDao: Delive
     override suspend fun update(packageDeliveryEntity: PackageDeliveryEntity) {
         deliveryDao.update(packageDeliveryEntity)
     }
+
+    override suspend fun delete(packageDeliveryEntity: PackageDeliveryEntity) {
+        deliveryDao.delete(packageDeliveryEntity)
+    }
 }

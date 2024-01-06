@@ -2,24 +2,19 @@ package com.learning.qrbarcodescanner.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.learning.qrbarcodescanner.databinding.ActivityMainBinding
+import com.learning.qrbarcodescanner.ui.model.DeliveryScreenEvent
+import com.learning.qrbarcodescanner.ui.model.DeliveryStatus
+import com.learning.qrbarcodescanner.ui.model.PackageDelivery
 import com.learning.qrbarcodescanner.ui.screen.PackagesScreen
 import com.learning.qrbarcodescanner.ui.theme.QRBarCodeScannerTheme
 import com.learning.qrbarcodescanner.ui.viewmodel.PackagesViewModel
-import com.learning.qrbarcodescanner.utils.FakePackageList
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,13 +28,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        checkForChanges()
+
         setContent {
             QRBarCodeScannerTheme {
                 val list by viewModel.allPackagesList.collectAsState(initial = emptyList())
                 PackagesScreen(
                     packageList = list,
                     modifier = Modifier.fillMaxSize(),
-                    onStatusChanged = { viewModel.update(it) }
+                    onStatusChanged = { delivery -> viewModel.update(delivery) },
+                    onEvent = ::onEvent
                 )
             }
         }
@@ -50,12 +49,27 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun onEvent(event: DeliveryScreenEvent) {
+        when (event) {
+            DeliveryScreenEvent.ADD -> {}
+            DeliveryScreenEvent.SCAN -> launchScanActivity()
+            is DeliveryScreenEvent.DELETE -> {
+                viewModel.delete(event.delivery)
+            }
+        }
+    }
+
     private fun checkForChanges() {
         val resultIntent = intent.getStringExtra(RESULT_KEY)
 
         if (resultIntent != null) {
-            Log.v("SEEKER", resultIntent.toString())
-//            resultState = resultIntent.toString()
+            val delivery = PackageDelivery(
+                itemName = resultIntent,
+                trackingNumber = resultIntent,
+                status = DeliveryStatus.Shipped()
+            )
+            viewModel.insertNew(delivery)
+            intent.removeExtra(RESULT_KEY)
         }
     }
 }

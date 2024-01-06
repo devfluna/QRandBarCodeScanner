@@ -32,4 +32,11 @@ interface DeliveryRepository {
      * @param packageDeliveryEntity The [PackageDeliveryEntity] to be updated.
      */
     suspend fun update(packageDeliveryEntity: PackageDeliveryEntity)
+
+    /**
+     * Deletes an existing package delivery entity in the repository.
+     *
+     * @param packageDeliveryEntity The [PackageDeliveryEntity] object to be deleted.
+     */
+    suspend fun delete(packageDeliveryEntity: PackageDeliveryEntity)
 }

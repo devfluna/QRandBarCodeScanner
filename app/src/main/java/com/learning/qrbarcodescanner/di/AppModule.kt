@@ -6,11 +6,13 @@ import com.learning.qrbarcodescanner.data.database.DeliveryDatabase
 import com.learning.qrbarcodescanner.data.database.DeliveryDao
 import com.learning.qrbarcodescanner.data.repository.DeliveryRepositoryImpl
 import com.learning.qrbarcodescanner.data.repository.DeliveryRepository
+import com.learning.qrbarcodescanner.data.usecases.DeletePackageUseCaseImpl
 import com.learning.qrbarcodescanner.ui.usecases.GetAllPackagesUseCase
 import com.learning.qrbarcodescanner.data.usecases.GetAllPackagesUseCaseImpl
 import com.learning.qrbarcodescanner.ui.usecases.InsertPackageUseCase
 import com.learning.qrbarcodescanner.data.usecases.InsertPackageUseCaseImpl
 import com.learning.qrbarcodescanner.data.usecases.UpdatePackageUseCaseImpl
+import com.learning.qrbarcodescanner.ui.usecases.DeletePackageUseCase
 import com.learning.qrbarcodescanner.ui.usecases.UpdatePackageUseCase
 import com.learning.qrbarcodescanner.ui.viewmodel.PackagesViewModel
 import dagger.Module
@@ -58,15 +60,21 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun providesDeletePackageUseCase(repository: DeliveryRepository): DeletePackageUseCase = DeletePackageUseCaseImpl(repository)
+
+    @Provides
+    @Singleton
     fun providesPackagesViewModel(
         getAllPackagesUseCase: GetAllPackagesUseCase,
         insertPackageUseCase: InsertPackageUseCase,
-        updatePackageUseCase: UpdatePackageUseCase
+        updatePackageUseCase: UpdatePackageUseCase,
+        deletePackageUseCase: DeletePackageUseCase
     ): PackagesViewModel {
         return PackagesViewModel(
             getAllPackagesUseCase,
             insertPackageUseCase,
-            updatePackageUseCase
+            updatePackageUseCase,
+            deletePackageUseCase
         )
     }
 }

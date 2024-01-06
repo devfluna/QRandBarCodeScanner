@@ -10,7 +10,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.zxing.Result
 import com.learning.qrbarcodescanner.ui.MainActivity.Companion.RESULT_KEY
-import com.learning.qrbarcodescanner.ui.MainActivity
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
 class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {

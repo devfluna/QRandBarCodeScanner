@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learning.qrbarcodescanner.ui.model.DeliveryStatus
 import com.learning.qrbarcodescanner.ui.model.PackageDelivery
+import com.learning.qrbarcodescanner.ui.usecases.DeletePackageUseCase
 import com.learning.qrbarcodescanner.ui.usecases.GetAllPackagesUseCase
 import com.learning.qrbarcodescanner.ui.usecases.InsertPackageUseCase
 import com.learning.qrbarcodescanner.ui.usecases.UpdatePackageUseCase
@@ -18,7 +19,8 @@ import kotlin.random.Random
 class PackagesViewModel @Inject constructor(
     private val getAllPackagesUseCase: GetAllPackagesUseCase,
     private val insertPackageUseCase: InsertPackageUseCase,
-    private val updatePackageUseCase: UpdatePackageUseCase
+    private val updatePackageUseCase: UpdatePackageUseCase,
+    private val deletePackageUseCase: DeletePackageUseCase
 ) : ViewModel() {
 
     init {
@@ -39,9 +41,21 @@ class PackagesViewModel @Inject constructor(
         }
     }
 
+    fun insertNew(delivery: PackageDelivery) {
+        viewModelScope.launch(Dispatchers.IO) {
+            insertPackageUseCase.insert(delivery)
+        }
+    }
+
     fun update(delivery: PackageDelivery) {
         viewModelScope.launch(Dispatchers.IO) {
             updatePackageUseCase.update(delivery)
+        }
+    }
+
+    fun delete(delivery: PackageDelivery) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deletePackageUseCase.delete(delivery)
         }
     }
 }
