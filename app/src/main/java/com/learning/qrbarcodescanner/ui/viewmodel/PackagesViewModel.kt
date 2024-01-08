@@ -2,7 +2,6 @@ package com.learning.qrbarcodescanner.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.learning.qrbarcodescanner.ui.model.DeliveryStatus
 import com.learning.qrbarcodescanner.ui.model.PackageDelivery
 import com.learning.qrbarcodescanner.ui.usecases.DeletePackageUseCase
 import com.learning.qrbarcodescanner.ui.usecases.GetAllPackagesUseCase
@@ -13,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class PackagesViewModel @Inject constructor(
@@ -23,23 +21,7 @@ class PackagesViewModel @Inject constructor(
     private val deletePackageUseCase: DeletePackageUseCase
 ) : ViewModel() {
 
-    init {
-//        insertDummyData()
-    }
-
     val allPackagesList: Flow<List<PackageDelivery>> = getAllPackagesUseCase()
-
-    private fun insertDummyData() {
-        viewModelScope.launch {
-            val dummy = PackageDelivery(
-                id = Random.nextInt(),
-                itemName = Random.nextInt().toString(),
-                trackingNumber = Random.nextInt().toString(),
-                status = DeliveryStatus.Shipped()
-            )
-            insertPackageUseCase.insert(dummy)
-        }
-    }
 
     fun insertNew(delivery: PackageDelivery) {
         viewModelScope.launch(Dispatchers.IO) {
