@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.learning.qrbarcodescanner.ui.ScanActivity
 import com.learning.qrbarcodescanner.ui.model.DeliveryScreenEvent
 import com.learning.qrbarcodescanner.ui.screen.PackagesScreen
+import com.learning.qrbarcodescanner.ui.screen.AddPackageScreen
 import com.learning.qrbarcodescanner.ui.viewmodel.PackagesViewModel
 
 @Composable
@@ -33,7 +34,7 @@ fun NavComponent() {
                 onStatusChanged = { delivery -> viewModel.update(delivery) },
                 onEvent = { event ->
                     when (event) {
-                        DeliveryScreenEvent.ADD -> TODO()
+                        DeliveryScreenEvent.ADD -> navController.navigate(DeliveryScreen.ADD.route)
                         is DeliveryScreenEvent.DELETE -> viewModel.delete(event.delivery)
                         DeliveryScreenEvent.SCAN -> {
                             val intent = Intent(context, ScanActivity::class.java)
@@ -44,6 +45,14 @@ fun NavComponent() {
             )
         }
 
+        composable(DeliveryScreen.ADD.route) {
+            val viewModel: PackagesViewModel = hiltViewModel()
+
+            AddPackageScreen(modifier = Modifier.fillMaxSize()) { delivery ->
+                viewModel.insertNew(delivery)
+                navController.navigate(DeliveryScreen.HOME.route)
+            }
+        }
 
     }
 }
