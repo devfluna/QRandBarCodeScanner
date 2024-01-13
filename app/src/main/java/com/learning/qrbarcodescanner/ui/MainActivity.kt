@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.learning.qrbarcodescanner.ui.model.DeliveryStatus
-import com.learning.qrbarcodescanner.ui.model.PackageDelivery
 import com.learning.qrbarcodescanner.ui.navigation.NavComponent
 import com.learning.qrbarcodescanner.ui.theme.QRBarCodeScannerTheme
 import com.learning.qrbarcodescanner.ui.viewmodel.PackagesViewModel
@@ -34,12 +32,7 @@ class MainActivity : AppCompatActivity() {
         val resultIntent = intent.getStringExtra(RESULT_KEY)
 
         if (resultIntent != null) {
-            val delivery = PackageDelivery(
-                itemName = resultIntent,
-                trackingNumber = resultIntent,
-                status = DeliveryStatus.Shipped()
-            )
-            viewModel.insertNew(delivery)
+            viewModel.check(resultIntent)
             intent.removeExtra(RESULT_KEY)
         }
     }

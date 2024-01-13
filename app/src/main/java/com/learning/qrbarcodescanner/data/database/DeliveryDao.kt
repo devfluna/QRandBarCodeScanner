@@ -17,5 +17,8 @@ interface DeliveryDao {
 
     @Query("SELECT * from package_entity ORDER BY status ASC")
     fun getAllPackages(): Flow<List<PackageDeliveryEntity>>
+
+    @Query("SELECT * from package_entity WHERE trackingNumber = :trackingNumber")
+    fun locate(trackingNumber: String): PackageDeliveryEntity
 }
 

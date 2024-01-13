@@ -9,6 +9,8 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.learning.qrbarcodescanner.ui.model.DeliveryStatus
@@ -44,7 +46,7 @@ fun AddPackageScreen(
             var trackingNumber by remember { mutableStateOf("") }
             TextField(
                 value = trackingNumber,
-                onValueChange = { value: String -> trackingNumber = value }
+                onValueChange = { trackingNumber = it.toUpperCase(Locale.current) }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -59,19 +61,12 @@ fun AddPackageScreen(
             val isVisible = itemName.isNotEmpty() && trackingNumber.isNotEmpty()
             AnimatedVisibility(visible = isVisible) {
                 Button(onClick = {
-                    val delivery = PackageDelivery(
-                        id = 1,
-                        itemName = itemName,
-                        trackingNumber = trackingNumber,
-                        status = status
-                    )
-
+                    val delivery = PackageDelivery(1, itemName, trackingNumber, status)
                     onSaveClick(delivery)
                 }) {
                     Text(text = "SAVE")
                 }
             }
-
         }
     }
 }

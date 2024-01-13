@@ -39,4 +39,11 @@ interface DeliveryRepository {
      * @param packageDeliveryEntity The [PackageDeliveryEntity] object to be deleted.
      */
     suspend fun delete(packageDeliveryEntity: PackageDeliveryEntity)
+
+    /**
+     * Locates an existing package delivery using the provided [trackingNumber].
+     *
+     * @param trackingNumber Of the [PackageDeliveryEntity] object to be located.
+     */
+    suspend fun locate(trackingNumber: String): PackageDeliveryEntity
 }

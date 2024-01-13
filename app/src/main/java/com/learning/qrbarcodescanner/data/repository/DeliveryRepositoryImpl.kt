@@ -22,4 +22,8 @@ class DeliveryRepositoryImpl @Inject constructor(private val deliveryDao: Delive
     override suspend fun delete(packageDeliveryEntity: PackageDeliveryEntity) {
         deliveryDao.delete(packageDeliveryEntity)
     }
+
+    override suspend fun locate(trackingNumber: String): PackageDeliveryEntity {
+        return deliveryDao.locate(trackingNumber)
+    }
 }
