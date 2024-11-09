@@ -1,5 +1,6 @@
 package com.learning.qrbarcodescanner.ui.screen
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -71,7 +72,7 @@ fun AddPackageScreen(
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun AddPackageScreenPreview() {
     QRBarCodeScannerTheme {

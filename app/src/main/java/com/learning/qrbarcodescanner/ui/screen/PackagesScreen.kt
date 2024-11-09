@@ -1,5 +1,7 @@
 package com.learning.qrbarcodescanner.ui.screen
 
+import android.annotation.SuppressLint
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -11,6 +13,7 @@ import com.learning.qrbarcodescanner.ui.screen.components.BottomDeliveryActionBa
 import com.learning.qrbarcodescanner.ui.screen.components.LazyDeliveryList
 import com.learning.qrbarcodescanner.utils.FakePackageList
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun PackagesScreen(
     packageList: List<PackageDelivery>,
@@ -29,7 +32,7 @@ fun PackagesScreen(
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PackagesScreenPreview() {
     PackagesScreen(

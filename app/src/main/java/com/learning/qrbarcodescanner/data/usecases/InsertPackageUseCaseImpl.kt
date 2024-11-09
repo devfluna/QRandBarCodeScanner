@@ -6,6 +6,8 @@ import com.learning.qrbarcodescanner.data.mappers.UiStatusToDataStatusMapperImpl
 import com.learning.qrbarcodescanner.data.repository.DeliveryRepository
 import com.learning.qrbarcodescanner.ui.model.PackageDelivery
 import com.learning.qrbarcodescanner.ui.usecases.InsertPackageUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class InsertPackageUseCaseImpl @Inject constructor(
@@ -14,6 +16,7 @@ class InsertPackageUseCaseImpl @Inject constructor(
 ) : InsertPackageUseCase {
 
     override suspend fun insert(delivery: PackageDelivery) {
+
         val packageDeliveryEntity = with(delivery) {
             PackageDeliveryEntity(
                 itemName = itemName,
@@ -22,6 +25,8 @@ class InsertPackageUseCaseImpl @Inject constructor(
             )
         }
 
-        deliveryRepository.insert(packageDeliveryEntity)
+        withContext(Dispatchers.IO) {
+            deliveryRepository.insert(packageDeliveryEntity)
+        }
     }
 }
