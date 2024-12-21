@@ -12,7 +12,7 @@ import com.learning.qrbarcodescanner.utils.Mapper
  */
 interface DataPackageToUiPackageMapper : Mapper<PackageDeliveryEntity, PackageDelivery>
 
-class DataPackageToUiPackageMapperImpl : Mapper<PackageDeliveryEntity, PackageDelivery> {
+class DataPackageToUiPackageMapperImpl : DataPackageToUiPackageMapper {
 
     override fun map(input: PackageDeliveryEntity): PackageDelivery {
         return with(input) {
